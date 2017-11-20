@@ -1,8 +1,8 @@
-var UserModel = require('../src/models/user.model');
+var CompanyModel = require('../src/models/company.model');
 
 
 exports.remove_token = function(req, res) {
-  req.user.removeToken(req.token)
+  req.company.removeToken(req.token)
     .then(() => {
       res.status(200).redirect('/');
     }, () => {
@@ -12,7 +12,7 @@ exports.remove_token = function(req, res) {
 
 
 /**
- * FROM -> app.post('/user/login', userRoute.login);
+ * FROM -> app.post('/company/login', companyRoute.login);
  * @param {object} req 
  * @param {object} res 
  */
@@ -20,34 +20,35 @@ exports.login = function(req, res) {
   let email = req.body.email;
   let password = req.body.password;
 
-  UserModel.findByCredentials(email, password)
-    .then((user) => {
-      user.generateAuthToken()
+  CompanyModel.findByCredentials(email, password)
+    .then((company) => {
+      company.generateAuthToken()
         .then((object) => {
           localStorage.setItem(FF_TOKEN, object.token);
+          localStorage.setItem(TOKEN_TYPE, 'company');
 
           res
             .header('x-auth', object.token)
-            .render('user', {
-              me: object.user
+            .render('company', {
+              me: object.company
             });
         })
     })
     .catch((e) => {
-      // cant find user
+      // cant find company
       res.status(400).send(e);
     })
 };
 
 
 /**
- * FROM -> app.post('/user', user_route.create_user);
+ * FROM -> app.post('/company', company_route.create_company);
  * @param {object} req 
  * @param {object} res 
  */
-exports.create_user = function(req, res) {
+exports.create_company = function(req, res) {
   
-  var user = new UserModel({
+  var company = new CompanyModel({
     email: req.body.email,
     password: req.body.password,
     firstName: req.body.firstName,
@@ -55,15 +56,15 @@ exports.create_user = function(req, res) {
     postCode: req.body.postCode
   });
 
-  user.save()
+  company.save()
     .then(() => {
-      return user.generateAuthToken();
+      return company.generateAuthToken();
 
     }).then((object) => {
       res
         .header('x-auth', object.token)
-        .render('user', {
-          me: object.user
+        .render('company', {
+          me: object.company
         });
     }).catch((e) => {
       res.status(400).send(e);
@@ -72,14 +73,14 @@ exports.create_user = function(req, res) {
 
 
 /**
- * FROM -> app.get('/user/me', authenticate, user_route.show_me);
+ * FROM -> app.get('/company/me', authenticate, company_route.get_me);
  * @param {object} req 
  * @param {object} res 
  */
-exports.show_me = function(req, res) {
-  // the user object patch on to the request 
+exports.get_me = function(req, res) {
+  // the company object patch on to the request 
   // by the authentication middleware
-  res.render('user', {
-    user: req.user
+  res.render('company', {
+    company: req.company
   });
 };

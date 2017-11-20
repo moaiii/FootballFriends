@@ -10,10 +10,11 @@ var {authenticate} = require('./middleware/authenticate');
 /**
  * Routes
  */
-var indexRoute =   require('./routes/index.route');
-var userRoute =    require('./routes/user.route');
-var gameRoute =    require('./routes/game.route');
-var teamRoute =    require('./routes/team.route');
+var indexRoute =    require('./routes/index.route');
+var userRoute =     require('./routes/user.route');
+var gameRoute =     require('./routes/game.route');
+var squadRoute =     require('./routes/squad.route');
+var pitchRoute =    require('./routes/pitch.route');
 
 
 /**
@@ -97,10 +98,15 @@ app.engine('jsx', reactViews.createEngine(options));
  */
 app.get('/', indexRoute.index);
 
-app.delete('/user/me/token', authenticate, userRoute.remove_token);
-app.post('/user/login', userRoute.login);
-app.get('/user/me', authenticate, userRoute.show_me);
-app.post('/user', userRoute.create_user);
+app.delete('/player/me/token', authenticate, playerRoute.remove_token);
+app.post('/player/login', playerRoute.login);
+app.get('/player/me', authenticate, playerRoute.get_me);
+app.post('/player', playerRoute.create_player);
+
+app.delete('/company/me/token', authenticate, companyRoute.remove_token);
+app.post('/company/login', companyRoute.login);
+app.get('/company/me', authenticate, companyRoute.get_me);
+app.post('/company', companyRoute.create_user);
 
 app.delete('/game/:id', authenticate, gameRoute.delete_game);
 app.patch('/game/:id', authenticate, gameRoute.update_game);
@@ -108,7 +114,20 @@ app.get('/game/:id', authenticate, gameRoute.get_game);
 app.get('/games', authenticate, gameRoute.my_games);
 app.post('/game', authenticate, gameRoute.create_game);
 
-app.get('/team', authenticate, teamRoute.team);
+app.delete('/pitch', authenticate, pitchRoute.delete_pitch);
+app.patch('/pitch', authenticate, pitchRoute.update_pitch);
+app.post('/pitch', authenticate, pitchRoute.create_pitch);
+app.get('/pitch', authenticate, pitchRoute.get_pitches);
+
+app.delete('/slot', authenticate, slotRoute.delete_slot);
+app.patch('/slot', authenticate, slotRoute.update_slot);
+app.post('/slot', authenticate, slotRoute.create_slot);
+app.get('/slot', authenticate, slotRoute.get_slots);
+
+app.delete('/squad', authenticate, squadRoute.delete_squad);
+app.patch('/squad', authenticate, squadRoute.update_squad);
+app.post('/squad', authenticate, squadRoute.create_squad);
+app.get('/squad', authenticate, squadRoute.get_squads);
 
 
 /**
