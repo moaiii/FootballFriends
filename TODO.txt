@@ -1,0 +1,7 @@
+Stop duplicate friend requests
+
+Beef out game model with squad 
+
+Tokens between redirects
+
+Add email message and persistence in the squad page

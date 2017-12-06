@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('moaiii-football-friends:server');
 var http = require('http');
+
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').load();
 }
@@ -29,8 +30,8 @@ var server = http.createServer(app);
  */
 
 server.listen(port, function() {
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.FF_PORT);
+  // console.log(process.env.NODE_ENV);
+  // console.log(process.env.FF_PORT);
 });
 
 server.on('error', onError);

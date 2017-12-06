@@ -1,0 +1,2 @@
+export const SET_USER_GAMES = "SET_USER_GAMES";
+export const SET_USER_FRIENDS = "SET_USER_FRIENDS";
