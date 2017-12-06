@@ -1,6 +1,7 @@
 var React = require('react');
 
 import FormInput from './form-input';
+import * as formAPI from '../form.api';
 
 class Login extends React.Component {
   constructor(props) {
@@ -13,11 +14,13 @@ class Login extends React.Component {
     return (
       <div className="login">
         <h4>Login</h4>
-        <form action="/user/login" method="POST">
-          <FormInput name={"email"} label={"Email: "} type={"email"}/>
-          <FormInput name={"password"} label={"Password: "} type={"password"}/>
-          <button type="submit">Login</button>
-        </form>
+        <FormInput name={"email"} label={"Email: "} type={"email"}/>
+        <FormInput name={"password"} label={"Password: "} type={"password"}/>
+        <button 
+          type="submit" 
+          onClick={() => this.props.handleSubmit('login')}>
+          Login
+        </button>
       </div>
     )
   }

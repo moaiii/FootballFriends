@@ -8,6 +8,9 @@ class FormContainer extends React.Component {
     super(props);
     
     this.state = {};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   componentDidMount() {
@@ -23,6 +26,10 @@ class FormContainer extends React.Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handleSubmit(type) {
+    console.log('Submit type', type);
   }
 
   render() {
