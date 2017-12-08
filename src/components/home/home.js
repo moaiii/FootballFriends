@@ -11,15 +11,23 @@ import SignupCompany from '../form/view/signup-company';
 class Home extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {};
   };
 
   render() {
     return (
       <div className="homepage__container">
         <h1>Football Friends</h1>
-        <FormContainer form={<Login/>} />
-        <FormContainer form={<SignupPlayer/>} />
-        <FormContainer form={<SignupCompany/>} />
+        <FormContainer>
+          <Login />
+        </FormContainer>
+        <FormContainer>
+          <SignupPlayer />
+        </FormContainer>
+        <FormContainer>
+          <SignupCompany />
+        </FormContainer>
       </div>
     );
   };

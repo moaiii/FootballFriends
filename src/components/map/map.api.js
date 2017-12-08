@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('../../../config');
 const axios = require('axios');
 
 
@@ -14,9 +13,9 @@ const geocodeAddress = (postcode) => {
   return new Promise((resolve, reject) => {
     let url = "https://maps.googleapis.com/maps/api/geocode/json?"
       + "address=" 
-      + postcode
+      + postcode.cleanPostcodeString()
       + "&key=" 
-      + config.google_geocoding_api_key
+      + process.env.FF_API_GEOCODE;
 
     console.log("Geocoding: ", url);
 
@@ -49,7 +48,7 @@ const getTravelData = (start, finish, mode = "subway", arrival = "", ) => {
       + "&destinations=" + finish.cleanPostcodeString()
       + "&transit_mode=" + mode
       + "&arrival_time=" + arrival
-      + "&key=" + config.google_distance_matrix_api_key;
+      + "&key=" + process.env.FF_API_DISTANCE_MATRIX;
 
     axios
       .get(url)

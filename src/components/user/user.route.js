@@ -1,3 +1,4 @@
+'use strict';
 var UserModel = require('./user.model');
 
 
@@ -10,6 +11,7 @@ exports.logout = function(req, res) {
       });
 
       res.status(200).redirect('/');
+      
     }, () => {
       res.status(400).send();
     })
@@ -22,25 +24,23 @@ exports.logout = function(req, res) {
  * @param {object} res 
  */
 exports.login = function(req, res) {
+
   let email = req.body.email;
   let password = req.body.password;
 
   UserModel.findByCredentials(email, password)
     .then((user) => {
+
       user.generateAuthToken()
         .then((object) => {
-          // store the token
-          req.session.token = object.token;
           req.session.user = object.user;
-
-          res.send({
-            object.token,
-            
-          });
+          req.session.token = object.token;
+          
+          res.send({token: object.token});
         })
     })
     .catch((e) => {
-      // cant find user
+      console.log('Cant get login @ promise', e);
       res.status(400).send(e);
     })
 };
@@ -91,10 +91,9 @@ exports.create_user = function(req, res) {
       }).then((object) => {
         // set token in the session
         req.session.token = object.token;
+        console.log('req.session: ', req.session);
   
-        res
-          // .header('x-auth', object.token)
-          .redirect('/user/me');
+        res.redirect('/user/me');
   
       }).catch((e) => {
         res.status(400).send(e);
@@ -112,11 +111,24 @@ exports.create_user = function(req, res) {
  * @param {object} res 
  */
 exports.get_me = function(req, res) {
-  // the user object patch on to the request 
-  // by the authentication middleware
-  res.render('user/user', {
-    me: req.user
-  });
+
+  let token =  typeof req.session.token === 'undefined'
+    ? req.header('x-auth')
+    : req.session.token;
+
+  User.findByToken(token)
+    .then(user => {
+      if(!user) {
+        return Promise.reject();
+      } else {
+        resolve({user});
+      }
+    })
+    .catch(e => {
+      console.error('Cannot get user in get_me', e);
+      res.status(401).redirect('/');
+    });
+    res.send({user});
 };
 
 

@@ -1,0 +1,16 @@
+{
+	"version": 3,
+	"file": "app.style.css",
+	"sources": [
+		"../../components/app/app.style.scss",
+		"../../components/game/game.style.scss",
+		"../../components/map/map.style.scss",
+		"../../components/pitch/pitch.style.scss",
+		"../../components/slot/slot.style.scss",
+		"../../components/squad/squad.style.scss",
+		"../../components/user/user.style.scss",
+		"../../components/form/form.style.scss"
+	],
+	"names": [],
+	"mappings": "AMAA,AAEE,GAFC,CAED,EAAE,CAAC;EACD,KAAK,EAAE,IAAI,GACZ;;ACJH,AAAA,KAAK,CAAC;EACJ,OAAO,EAAE,IAAI,GACd;;AAED,AAAA,gBAAgB,CAAC;EACf,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM,GACvB;;APsCD,AAAA,SAAS,CAAC;EACR,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,eAAe,EAAE,YAAY,GAC9B;;AAED,AAAA,YAAY,CAAC;EACX,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,GAAG;EACnB,eAAe,EAAE,YAAY,GAC9B"
+}

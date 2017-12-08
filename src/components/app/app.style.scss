@@ -41,4 +41,16 @@ $mobile: 425px;
 @import '../slot/slot.style.scss';
 @import '../squad/squad.style.scss';
 @import '../user/user.style.scss';
-@import '../form/view/form.style.scss';
+@import '../form/form.style.scss';
+
+.app__nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.app__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

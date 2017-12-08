@@ -1,5 +1,3 @@
-'use strict';
-
 // src/components/AppRoutes.js
 import React from 'react';
 import { Router, browserHistory } from 'react-router';
@@ -11,7 +9,7 @@ export default class AppRoutes extends React.Component {
       <Router 
         routes={routes} 
         history={browserHistory} 
-        onUpdate={() => window.scrollTo(0, 0)} />
+        onUpdate={() => window.scrollTo(0, 0)}/>
     );
   }
 }

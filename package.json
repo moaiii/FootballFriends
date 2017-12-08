@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "webpack": "webpack --debug --watch",
-    "build-task:scss-compile": "node-sass-chokidar --source-map true src/app/app.style.scss -o public/css",
-    "build-task:autoprefixer": "postcss public/css/*.css --use autoprefixer -d public/css",
+    "start": "concurrently \"npm run server\" \"npm run build\" \"npm run styles\"",
+    "server": "NODE_ENV=development nodemon -r dotenv/config node_modules/.bin/babel-node --presets react,es2015 src/server.js",
+    "build": "npm run webpack",
+    "styles": "npm run sass:build && npm run sass:watch",
+    "build-task:scss-compile": "node-sass-chokidar --source-map true src/components/app/app.style.scss -o src/static/css",
+    "build-task:autoprefixer": "postcss src/static/css/*.css --use autoprefixer -d src/static/css/",
     "sass:build": "npm-run-all -p build-task:*",
-    "sass:watch": "chokidar 'src/**/*.scss' -c 'npm run sass:build'",
-    "dev": "npm run sass:build && npm run sass:watch && NODE_ENV=development nodemon -r dotenv/config ./bin/www"
+    "sass:watch": "chokidar 'src/components/**/*.scss' -c 'npm run sass:build'",
+    "webpack": "NODE_ENV=development node_modules/.bin/webpack --watch"
   },
   "dependencies": {
     "autoprefixer": "^7.2.1",
@@ -19,6 +22,7 @@
     "babel-register": "^6.26.0",
     "body-parser": "^1.17.2",
     "chokidar-cli": "^1.2.0",
+    "concurrently": "^3.5.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
@@ -49,6 +53,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
     "crypto-js": "^3.1.9-1",
     "css-loader": "^0.28.7",
     "ejs": "^2.5.7",

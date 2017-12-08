@@ -1,6 +1,8 @@
-'use strict';
-
 import React from 'react';
+import PropTypes from 'prop-types';
+import { browserHistory } from 'react-router';
+
+import * as formAPI from '../form.api';
 
 
 class FormContainer extends React.Component {
@@ -13,32 +15,60 @@ class FormContainer extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   };
 
-  componentDidMount() {
-    console.log("Form props: ", this.props)
-  };
-
-  handleChange(event) {
-    console.log("handling change... ", event)
-    let target = event.target;
-    let value = target.type === 'checkbox' ? target.checked : target.value;
-    let name = target.name;
-
-    this.setState({
-      [name]: value
+  /**
+   * Store the input fields value in this state object
+   * @param {string} type 
+   * @param {string} name 
+   * @param {string} value 
+   */
+  handleChange(type, name, value) {
+    this.setState((prevState, props) => {
+      return {
+        [name]: value
+      }
     });
   };
 
-  handleSubmit(type) {
-    console.log('Submit type', type);
-  }
+  /**
+   * Switch terminal calling various api points
+   * @param {string} type 
+   * @param {string} form 
+   */
+  handleSubmit(type, form) {
+    let $ = this.state;
+
+    switch(type) {
+      case 'login':
+        formAPI.login($.email, $.password)
+          .then(token => {
+            browserHistory.push('/user/me');
+          })
+          .catch(e => console.log('Error logging in', e));
+      
+      default: null;
+    };
+  };
+
 
   render() {
+    const { children } = this.props;
+
+    var childrenWithProps = React.Children.map(children, child =>
+      React.cloneElement(child, { 
+        handleSubmit: this.handleSubmit,
+        handleChange: this.handleChange
+      }));
+
     return (
       <div className="form__container">
-        {this.props.form}
+        {childrenWithProps}
       </div>
     )
   };
+};
+
+FormContainer.propTypes = {
+  children: PropTypes.element.isRequired
 };
 
 module.exports = FormContainer;

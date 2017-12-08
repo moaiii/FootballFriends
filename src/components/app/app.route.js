@@ -3,25 +3,12 @@
 const express = require('express');
 const router = express.Router();
 import request from 'request';
-import React, {Component} from 'react';
-import {renderToString} from 'react-dom/server';
-import {RouterContext, match, createRoutes} from 'react-router';
 
-import appRouter from '../client/router';
-const routes = createRoutes(appRouter());
 const {authenticate} = require('../../middleware/authenticate');
-
-// router.get('*', (req, res) => {
-//   match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
-//     // check for error and redirection
-//     const content = renderToString(<RouterContext {...renderProps}/>);
-//     // pass content to jade view (we'll see it in a while)
-//   })
-// })
 
 // ROUTES
 var gameRoute = require('../game/game.route');
-var homeRoute = require('./home.route');
+var homeRoute = require('../home/home.route');
 var pitchRoute = require('../pitch/pitch.route');
 var slotRoute = require('../slot/slot.route');
 var squadRoute = require('../squad/squad.route');

@@ -52,7 +52,7 @@ var userSchema = mongoose.Schema({
       type: String,
       required: function() {
         return this.isCompany
-      }.bind(this)
+      }
     },
     vatRegistrationNumber: {
       type: String
@@ -321,9 +321,14 @@ userSchema.statics.findByToken = function(token) {
 userSchema.statics.findByCredentials = function(email, password) {
   var User = this;
 
+  console.log("findByCredentials: ", email, password);
+  
   // return the result of the find One query !!!!!!!!
   return User.findOne({email})
     .then(user => {
+
+      console.log('user found: ', user.email);
+      
       if(!user) return Promise.reject();
 
       return new Promise((resolve, reject) => {
@@ -331,11 +336,12 @@ userSchema.statics.findByCredentials = function(email, password) {
           if(result) {
             resolve(user)
           } else {
-            reject();
+            reject('~! Password incorrect');
           }
         });
       })
     })
+    .catch(e => console.error('Cannot find user by credentials', e))
 };
 
 
